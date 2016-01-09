@@ -1,0 +1,18 @@
+cassandra:
+  authenticator: AllowAllAuthenticator
+
+keystone:
+  admin-password: password
+  admin-role: admin
+
+mysql:
+  dataset-size: 15%
+
+neutron-api:
+  manage-neutron-plugin-legacy-mode: false
+
+nova-cloud-controller:
+  network-manager: Neutron
+
+nova-compute:
+  manage-neutron-plugin-legacy-mode: false

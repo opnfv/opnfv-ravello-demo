@@ -1,0 +1,20 @@
+Project: Juju OPNFV Infrastructure Deployer (JOID)
+Project Creation Date: 2015.05.26
+Project Category: Integration & Testing
+Lifecycle State: Incubation/Mature/Integration/Top Level
+Primary Contact(s): artur.tyloch@canonical.com, narinder.gupta@canonical.com
+Project Lead: artur.tyloch@canonical.com
+Jira Project Name: Juju OPNFV Infrastructure Deployer
+Jira Project Prefix: JOID
+Mailing list tag: [joid]
+IRC: #opnfv-joid
+Repository: joid
+
+Committers:
+narinder.gupta@canonical.com
+prakash.ramchandran@huawei.com
+vagish.shanmukh@huawei.com
+artur.tyloch@canonical.com
+
+Link to TSC approval of the project: http://meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-05-26-13.58.html
+Link(s) to approval of additional committers:

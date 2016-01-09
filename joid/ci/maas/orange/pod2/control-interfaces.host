@@ -1,0 +1,27 @@
+#### original juju generated part ####
+auto lo
+
+# Primary interface (defining the default route)
+iface eth0 inet manual
+
+# Bridge to use for LXC/KVM containers
+auto juju-br0
+iface juju-br0 inet dhcp
+    bridge_ports eth0
+
+######################################
+#storage network for ceph on openstack
+auto eth1
+iface eth1 inet dhcp
+
+######################################
+#data network for VM on openstack
+auto eth3
+iface eth3 inet manual
+
+auto brData
+iface brData inet dhcp
+  bridge_ports eth3
+  bridge_stp off
+  bridge_fd 0
+  bridge_maxwait 0

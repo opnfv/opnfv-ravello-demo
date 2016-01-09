@@ -1,0 +1,13 @@
+# This file defines the deployment for the MAAS environment which is to be
+# deployed and automated.
+opnfv:
+    # Defines the openstack release needs to be get installed.
+    release:B
+    # Defines the openstack release needs to be get installed.
+    openstack:liberty
+    # Defines the sdn plugin to be get installed.
+    sdn:odl
+    # Defines the ha type to be get installed.
+    type:ha
+    # Defines the lab where release to be get installed.
+    lab:default

@@ -1,0 +1,37 @@
+cassandra:
+  authenticator: AllowAllAuthenticator
+
+contrail-analytics:
+  openstack-origin: cloud:trusty-juno
+
+contrail-configuration:
+  openstack-origin: cloud:trusty-juno
+
+contrail-control:
+  openstack-origin: cloud:trusty-juno
+
+glance:
+  openstack-origin: cloud:trusty-juno
+
+keystone:
+  admin-password: password
+  admin-role: admin
+  openstack-origin: cloud:trusty-juno
+
+mysql:
+  dataset-size: 15%
+
+neutron-api:
+  manage-neutron-plugin-legacy-mode: false
+  openstack-origin: cloud:trusty-juno
+
+nova-cloud-controller:
+  network-manager: Neutron
+  openstack-origin: cloud:trusty-juno
+
+nova-compute:
+  manage-neutron-plugin-legacy-mode: false
+  openstack-origin: cloud:trusty-juno
+
+openstack-dashboard:
+  openstack-origin: cloud:trusty-juno

@@ -1,0 +1,115 @@
+OpenContrail Deployment with Juju
+=================================
+
+This readme contains instructions for checking out and deploying Juju charms for
+OpenContrail.
+
+The charms are targetted at Trusty but originally used OpenContrail Precise
+packages.
+
+
+Checkout charms
+---------------
+
+Charms are hosted on Launchpad.
+You need to 'sudo apt-get install bzr' first.
+
+Follow these steps to checkout code:
+
+cd <deployer dir>
+./fetch-charms.sh
+
+This will checkout the relevant charms into 'src' and create any Juju symlinks
+in 'charms'.
+
+
+Deploy with cloud-sh-contrail
+-----------------------------
+
+cloud-sh-contrail is a collection of development shell scripts to deploy
+and setup OpenStack with OpenContrail using Juju's local provider. This will
+create 3 KVMs as follows:
+
+*KVM #1 - Keystone, Glance, Neutron Server, Nova Cloud Controller, Horizon,
+          MySQL, RabbitMQ, Contrail Configuration, Contrail Control,
+          Contrail Analytics, Contrail Web UI, Zookeeper
+
+*KVM #2 - Nova Compute with Contrail vRouter
+
+*KVM #3 - Cassandra
+
+You'll require approx. 25Gb RAM with 60Gb+ disk space.
+Deployment can take anywhere between 20 mins to 1 hour.
+
+You need to 'sudo apt-get install juju juju-local uvtool', and
+logout/login in order to pick up libvirt group permissions before
+proceeding. See https://bugs.launchpad.net/juju-core/+bug/1308088.
+
+Follow these steps:
+
+ssh-keygen
+  (if you don't already have a key at ~/.ssh/id_rsa).
+
+cp cloud-sh-contrail/environments.yaml ~/.juju
+  (or create your own default local environment in your existing
+   environments.yaml file)
+
+cd cloud-sh-contrail
+
+./deploy-trusty.sh (deploys under trusty)
+or
+./deploy-precise.sh (deploys under precise)
+
+This will log to 'out.log'.
+
+This will deploy OpenStack and import Trusty's daily image into Glance.
+
+Horizon will be located on the machine 'juju status openstack-dashboard' -
+http://<ip>/horizon.
+
+Contrail Web UI will be located on the machine 'juju status contrail-webui' -
+http://<ip>:8080.
+
+Admin credentials will be written to cloud/admin-openrc.
+
+Upon deployment, the host's route and iptables config will be updated to send
+NAT'ed traffic to the Nova Compute node hosting Contrail's virtual gateway.
+Such changes can be disabled by not defining or commenting out the variable
+'CONFIGURE_HOST_ROUTING' in cloud-sh-contrail/config-*.sh.
+
+The deployment can be destroyed with:
+
+juju destroy-environment local
+
+
+Deploy with Juju Deployer
+-------------------------
+
+Juju Deployer can deploy a preset configuration of charms given a yaml
+configuration file. There is a configuration file in
+'juju-deployer/contrail.yaml'.
+
+You need to 'sudo apt-get install juju-deployer' first.
+
+Then:
+
+cd juju-deployer
+
+juju-deployer -c contrail.yaml -d trusty-icehouse-contrail (deploy trusty)
+or
+juju-deployer -c contrail.yaml -d precise-icehouse-contrail (deploy precise)
+
+Juju Deployer will branch its own copy of the remote charms.
+
+Post-deployment scripts exist to configure OpenStack.
+You will need 'dnsutils' package installed beforehand.
+To run:
+
+cd scripts
+
+CONFIGURE_HOST_ROUTING=true ./openstack.sh
+
+Setting 'CONFIGURE_HOST_ROUTING' environment variable will configure the host's
+route and iptables config to send NAT'ed traffic to the Nova Compute node
+hosting Contrail's virtual gateway. If you do not want this, run
+'./openstack.sh' directly.

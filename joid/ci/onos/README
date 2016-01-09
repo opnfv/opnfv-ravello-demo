@@ -1,0 +1,85 @@
+ONOS Deployment with Juju
+=================================
+
+This readme contains instructions for checking out and deploying Juju charms for
+ONOS.
+
+The charms are targetted at Trusty.
+
+Checkout charms
+---------------
+
+Charms are hosted on Launchpad.
+You need to 'sudo apt-get install bzr' first.
+
+Follow these steps to checkout code:
+
+cd <deployer dir>
+./fetch-charms.sh
+
+This will checkout the relevant charms into 'src' and create any Juju symlinks
+in 'charms'.
+
+Deploy with cloud-sh-onos
+------------------------
+
+cloud-sh-onos is a collection of development shell scripts to deploy
+and setup OpenStack with ONOS using Juju's local provider. This will
+create 3 KVMs as follows:
+
+*KVM #1 - Keystone, Glance, Neutron Server, Nova Cloud Controller, Horizon,
+          MySQL, RabbitMQ, ONOS Controller
+
+*KVM #2 - Neutron agents
+
+*KVM #3 - Nova Compute
+
+You'll require approx. 13Gb RAM with 40Gb+ disk space.
+Deployment can take anywhere between 20 mins to 1 hour.
+
+You need to 'sudo apt-get install juju juju-local uvtool', and
+logout/login in order to pick up libvirt group permissions before
+proceeding. See https://bugs.launchpad.net/juju-core/+bug/1308088.
+
+Follow these steps:
+
+ssh-keygen
+  (if you don't already have a key at ~/.ssh/id_rsa).
+
+cp cloud-sh-onos/environments.yaml ~/.juju
+  (or create your own default local environment in your existing
+   environments.yaml file)
+
+cd cloud-sh-onos
+
+./deploy.sh
+
+This will log to 'out.log'.
+
+This will deploy OpenStack and import Trusty's daily image into Glance.
+
+Horizon will be located on the machine 'juju status openstack-dashboard' -
+http://<ip>/horizon.
+Admin credentials will be written to cloud/admin-openrc.
+
+The deployment can be destroyed with:
+
+juju destroy-environment local
+
+
+Deploy with Juju Deployer
+-------------------------
+
+Juju Deployer can deploy a preset configuration of charms given a yaml
+configuration file. There is a configuration file in
+'juju-deployer/onos.yaml'.
+
+You need to 'sudo apt-get install juju-deployer' first.
+
+Then:
+
+cd juju-deployer
+
+juju-deployer -c onos.yaml -d trusty-icehouse-onos
+
+Juju Deployer will branch its own copy of the remote charms.

@@ -1,0 +1,40 @@
+default: demo-maas
+
+environments:
+
+    # https://juju.ubuntu.com/docs/config-maas.html
+    demo-maas:
+        type: maas
+
+        # maas-server specifies the location of the MAAS server. It must
+        # specify the base path.
+        #
+        maas-server: 'http://10.4.1.2/MAAS'
+
+        # maas-oauth holds the OAuth credentials from MAAS.
+        #
+        maas-oauth: 'HyacKVwxBVE9xwmJW7:CVwUpERLN3fDUbkUra:ETW88KVJxDHQA3kqmZgghUQnzanSFwH4'
+
+        # maas-server bootstrap ssh connection options
+        #
+
+        # bootstrap-timeout time to wait contacting a state server, in seconds.
+        bootstrap-timeout: 1800
+
+        # Whether or not to refresh the list of available updates for an
+        # OS. The default option of true is recommended for use in
+        # production systems, but disabling this can speed up local
+        # deployments for development or testing.
+        #
+        enable-os-refresh-update: false
+
+        # Whether or not to perform OS upgrades when machines are
+        # provisioned. The default option of true is recommended for use
+        # in production systems, but disabling this can speed up local
+        # deployments for development or testing.
+        #
+        enable-os-upgrade: false   
+   
+   
+        admin-secret: admin
+        default-series: trusty

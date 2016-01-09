@@ -1,0 +1,24 @@
+#### original juju generated part ####
+auto lo
+
+# Primary interface (defining the default route)
+iface p1p1 inet manual
+
+# Bridge to use for LXC/KVM containers
+auto juju-br0
+iface juju-br0 inet dhcp
+    bridge_ports p1p1
+######################################
+
+auto p1p2
+iface p1p2 inet manual
+
+# The public network interface
+
+auto brPublic
+iface brPublic inet dhcp
+        bridge_ports p1p2
+        bridge_stp off
+        bridge_fd 0
+        bridge_maxwait 0
+

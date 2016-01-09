@@ -1,0 +1,21 @@
+keystone:
+  admin-password: password
+  
+
+mysql:
+  dataset-size: 10%
+  max-connections: 1000
+
+neutron-api:
+  neutron-plugin: onos
+  neutron-security-groups: True
+  
+
+neutron-gateway:
+  plugin: onos
+  
+
+nova-cloud-controller:
+  network-manager: Neutron
+  quantum-security-groups: "yes"
+  

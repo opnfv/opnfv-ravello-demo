@@ -1,0 +1,296 @@
+# vim: set ts=2 et:
+openstack-phase1:
+  series: trusty
+  services:
+    nodes-api:
+      charm: "local:trusty/ubuntu-nodes-controller"
+      num_units: 1
+      constraints: tags=control
+    nodes-compute:
+      charm: "local:trusty/ubuntu-nodes-compute"
+      num_units: 1
+      constraints: tags=compute
+    "ntp":
+      charm: "cs:trusty/ntp"
+    zookeeper:
+      branch: lp:~charmers/charms/precise/zookeeper/trunk
+      series: precise
+      to:
+        - "lxc:nodes-api=0"
+    cassandra:
+      branch: lp:~stub/charms/trusty/cassandra/noauthentication
+      to:
+        - "lxc:nodes-api=0"
+      options:
+        authenticator: AllowAllAuthenticator
+  relations:
+    - - "ntp:juju-info"
+      - "nodes-api:juju-info"
+    - - "ntp:juju-info"
+      - "nodes-compute:juju-info"
+openstack-phase2:
+  inherits: openstack-phase1
+  services:
+    "mysql":
+      charm: "cs:trusty/mysql"
+      num_units: 1
+      options:
+        "dataset-size": 2G
+        "max-connections": 10000
+      to:
+        - "lxc:nodes-api=0"
+    "mongodb":
+      charm: "cs:trusty/mongodb"
+      num_units: 1
+      to:
+        - "lxc:nodes-api=0"
+    "ceilometer":
+      branch: "lp:~openstack-charmers/charms/trusty/ceilometer/next"
+      num_units: 1
+      to:
+        - "lxc:nodes-api=0"
+    "ceilometer-agent":
+      branch: "lp:~openstack-charmers/charms/trusty/ceilometer-agent/next"
+    heat:
+      branch: "lp:~openstack-charmers/charms/trusty/heat/next"
+      to:
+        - "lxc:nodes-api=0"
+    ceph:
+      charm: cs:trusty/ceph
+      num_units: 1
+      options:
+        fsid: 5a791d94-980b-11e4-b6f6-3c970e8b1cf7
+        monitor-secret: AQAi5a9UeJXUExAA+By9u+GPhl8/XiUQ4nwI3A==
+        osd-devices: /srv
+        monitor-count: 1
+        osd-reformat: 'no'
+#        ceph-cluster-network: 192.168.0.0/24
+#        ceph-public-network: 192.168.0.0/24
+      to:
+        - "nodes-compute=0"
+#        - "nodes-compute=1"
+#    ceph-osd:
+#      charm: cs:trusty/ceph-osd
+#      num_units: 1
+#      options:
+#        osd-devices: /dev/sdb
+#        osd-reformat: 'yes'
+#      to:
+#        - "lxc:nodes-api=0"
+#    ceph-radosgw:
+#      charm: cs:trusty/ceph-radosgw
+#      num_units: 1
+#      options:
+#        use-embedded-webserver: true
+#      to:
+#        - "lxc:nodes-api=0"
+    cinder:
+      charm: cs:trusty/cinder
+      num_units: 1
+      options:
+        block-device: None
+        glance-api-version: 2
+#        ha-mcastport: 5401
+      to:
+        - "lxc:nodes-api=0"
+    cinder-ceph:
+      charm: cs:trusty/cinder-ceph
+    "rabbitmq-server":
+      branch: lp:charms/trusty/rabbitmq-server
+      num_units: 1
+      to:
+        - "lxc:nodes-api=0"
+    "keystone":
+      branch: lp:charms/trusty/keystone
+      num_units: 1
+      options:
+        "admin-password": openstack
+        "admin-token": admin
+      to:
+        - "lxc:nodes-api=0"
+    "openstack-dashboard":
+      branch: lp:charms/trusty/openstack-dashboard
+      num_units: 1
+      options:
+        secret: admin
+        webroot: /
+      to:
+        - "lxc:nodes-api=0"
+    "nova-compute":
+      branch: lp:~openstack-charmers/charms/trusty/nova-compute/next
+      num_units: 1
+      options:
+        "manage-neutron-plugin-legacy-mode": False
+      to:
+        - "nodes-compute=0"
+#        - "nodes-compute=1"
+    "nova-cloud-controller":
+      branch: lp:charms/trusty/nova-cloud-controller
+      num_units: 1
+      options:
+        "network-manager": Neutron
+      to:
+        - "lxc:nodes-api=0"
+    "neutron-api":
+      branch: lp:~openstack-charmers/charms/trusty/neutron-api/next
+      num_units: 1
+      options:
+        manage-neutron-plugin-legacy-mode: False
+      to:
+        - "lxc:nodes-api=0"
+    "glance":
+      branch: lp:charms/trusty/glance
+      num_units: 1
+      to:
+        - "lxc:nodes-api=0"
+  relations:
+    - [ keystone, mysql ]
+    - [ nova-cloud-controller, mysql ]
+    - [ nova-cloud-controller, rabbitmq-server ]
+    - [ nova-cloud-controller, glance ]
+    - [ nova-cloud-controller, keystone ]
+    - [ nova-compute, nova-cloud-controller ]
+    - [ "nova-compute:shared-db", "mysql:shared-db" ]
+    - [ "nova-compute:amqp", "rabbitmq-server:amqp" ]
+    - [ nova-compute, glance ]
+    - [ glance, mysql ]
+    - [ glance, keystone ]
+    - [ openstack-dashboard, keystone ]
+    - [ neutron-api, mysql ]
+    - [ neutron-api, rabbitmq-server ]
+    - [ neutron-api, nova-cloud-controller ]
+    - [ neutron-api, keystone ]
+    - [ neutron-api, neutron-api-contrail ]
+    - [ "ceilometer:amqp", "rabbitmq-server:amqp" ]
+    - [ "ceilometer-agent:ceilometer-service", "ceilometer:ceilometer-service" ]
+    - [ "ceilometer:identity-service", "keystone:identity-service" ]
+    - [ "ceilometer:identity-notifications", "keystone:identity-notifications" ]
+    - [ "ceilometer-agent:nova-ceilometer", "nova-compute:nova-ceilometer" ]
+    - [ "ceilometer:shared-db", "mongodb:database" ]
+    - [ "heat:shared-db", "mysql:shared-db" ]
+    - [ "heat:identity-service", "keystone:identity-service" ]
+    - [ "heat:amqp", "rabbitmq-server:amqp" ]
+    - [ "cinder:image-service", "glance:image-service" ]
+    - [ "cinder:amqp", "rabbitmq-server:amqp" ]
+    - [ "cinder:identity-service", "keystone:identity-service" ]
+    - [ "cinder:cinder-volume-service", "nova-cloud-controller:cinder-volume-service" ]
+    - [ "cinder-ceph:storage-backend", "cinder:storage-backend" ]
+    - [ "ceph:client", "nova-compute:ceph" ]
+    - [ "cinder:shared-db", "mysql:shared-db" ]
+    - [ "ceph:client", "cinder-ceph:ceph" ]
+    - [ "ceph:client", "glance:ceph" ]
+contrail:
+  inherits: openstack-phase2
+  services:
+    contrail-configuration:
+      branch:  lp:~sdn-charmers/charms/trusty/contrail-configuration/trunk
+      to:
+        - "lxc:nodes-api=0"
+    contrail-control:
+      branch: lp:~sdn-charmers/charms/trusty/contrail-control/trunk
+      to:
+        - "lxc:nodes-api=0"
+    contrail-analytics:
+      branch: lp:~sdn-charmers/charms/trusty/contrail-analytics/trunk
+      to:
+        - "lxc:nodes-api=0"
+    contrail-webui:
+      branch: lp:~sdn-charmers/charms/trusty/contrail-webui/trunk
+      to:
+        - "lxc:nodes-api=0"
+    neutron-api-contrail:
+      branch: lp:~sdn-charmers/charms/trusty/neutron-api-contrail/trunk
+    neutron-contrail:
+      branch: lp:~sdn-charmers/charms/trusty/neutron-contrail/trunk
+  relations:
+    - [ "contrail-configuration:cassandra", "cassandra:database" ]
+    - [ contrail-configuration, zookeeper ]
+    - [ contrail-configuration, rabbitmq-server ]
+    - [ contrail-configuration, keystone ]
+    - [ neutron-api-contrail, contrail-configuration ]
+    - [ neutron-api-contrail, keystone ]
+    - [ "contrail-control:contrail-api", "contrail-configuration:contrail-api" ]
+    - [ "contrail-control:contrail-discovery", "contrail-configuration:contrail-discovery" ]
+    - [ "contrail-control:contrail-ifmap", "contrail-configuration:contrail-ifmap" ]
+    - [ contrail-control, keystone ]
+    - [ "contrail-analytics:cassandra", "cassandra:database" ]
+    - [ contrail-analytics, contrail-configuration ]
+    - [ contrail-webui, keystone ]
+    - [ "contrail-webui:contrail_api", "contrail-configuration:contrail-api" ]
+    - [ "contrail-webui:contrail_discovery", "contrail-configuration:contrail-discovery" ]
+    - [ "contrail-webui:cassandra", "cassandra:database" ]
+    - [ nova-compute, neutron-contrail ]
+    - [ "neutron-contrail:contrail-discovery", "contrail-configuration:contrail-discovery" ]
+    - [ "neutron-contrail:contrail-api", "contrail-configuration:contrail-api" ]
+    - [ neutron-contrail, keystone ]
+
+trusty-liberty-nodes:
+  inherits: openstack-phase1
+  series: trusty
+  overrides:
+    series: trusty
+
+trusty-liberty:
+  inherits: contrail
+  series: trusty
+  services:
+    mysql:
+      charm: cs:trusty/mysql
+    rabbitmq-server:
+      charm: cs:trusty/rabbitmq-server
+  overrides:
+    series: trusty
+    #os-data-network: 10.4.8.0/21
+    #prefer-ipv6: true
+    region: Canonical
+    openstack-origin: cloud:trusty-liberty
+    source: "cloud:trusty-liberty"
+    ceph-osd-replication-count: 1
+
+trusty-kilo-nodes:
+  inherits: openstack-phase1
+  series: trusty
+  overrides:
+    series: trusty
+
+trusty-kilo:
+  inherits: contrail
+  series: trusty
+  services:
+    mysql:
+      charm: cs:trusty/mysql
+    rabbitmq-server:
+      charm: cs:trusty/rabbitmq-server
+  overrides:
+    series: trusty
+    #os-data-network: 10.4.8.0/21
+    #prefer-ipv6: true
+    region: Canonical
+    openstack-origin: cloud:trusty-kilo
+    source: "cloud:trusty-kilo"
+    ceph-osd-replication-count: 1
+
+
+trusty-juno-nodes:
+  inherits: openstack-phase1
+  overrides:
+    series: trusty
+
+trusty-juno:
+  inherits: contrail
+  series: trusty
+  services:
+    mysql:
+      charm: cs:trusty/mysql
+    rabbitmq-server:
+      charm: cs:trusty/rabbitmq-server
+  overrides:
+    series: trusty
+    #os-data-network: 10.4.8.0/21
+    #prefer-ipv6: true
+    region: Canonical
+    openstack-origin: cloud:trusty-juno
+    source: "cloud:trusty-juno"
+    ceph-osd-replication-count: 1
+
+

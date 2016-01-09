@@ -1,0 +1,37 @@
+cassandra:
+  authenticator: AllowAllAuthenticator
+
+contrail-analytics:
+  openstack-origin: cloud:precise-icehouse
+
+contrail-configuration:
+  openstack-origin: cloud:precise-icehouse
+
+contrail-control:
+  openstack-origin: cloud:precise-icehouse
+
+glance:
+  openstack-origin: cloud:precise-icehouse
+
+keystone:
+  admin-password: password
+  admin-role: admin
+  openstack-origin: cloud:precise-icehouse
+
+mysql:
+  dataset-size: 15%
+
+neutron-api:
+  manage-neutron-plugin-legacy-mode: false
+  openstack-origin: cloud:precise-icehouse
+
+nova-cloud-controller:
+  network-manager: Neutron
+  openstack-origin: cloud:precise-icehouse
+
+nova-compute:
+  manage-neutron-plugin-legacy-mode: false
+  openstack-origin: cloud:precise-icehouse
+
+openstack-dashboard:
+  openstack-origin: cloud:precise-icehouse
