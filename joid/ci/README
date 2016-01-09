@@ -1,0 +1,45 @@
+MAAS pre requisite before deploying the solution:
+=================================================
+
+MAAS version 1.8.0 or latest should be installed and configure 
+from ppa:maas/stable
+
+Please do the following once you have configure the MAAS cluster and regional
+controller.
+
+1. Create two KVM virtual machine and have it named as bootstrap.maas and 
+   node1.maas
+2. Maually add chassis in MAAS with virsh as option and have both nodes listed 
+   and commionined in MAAS.
+3. Have all other physical nodes added into maas by PXE boot the nodes and 
+   make sure node gets pxe booted theroug MAAS.
+4. Tag all physical nodes as physical.
+5. Tag bootstrap.maas as bootstrap and nodea.maas as neutron and gateway.
+
+install juju 
+============
+
+add juju stable ppa by running command sudo apt-add-repository ppa:juju/stable
+then run the following commands to do an juju install.
+
+sudo apt-get update
+sudo apt-get install juju
+
+copy the environments.yaml file into ~/.juju/ directory and modify accordingly
+MAAS_URL
+MAAS_UUID
+
+deploy the bundle
+=================
+
+run the following commands to clone a git repository and run the bundle.
+
+git clone https://narindergupta@gerrit.opnfv.org/gerrit/joid
+# to depploy odl with kilo in nonha mode
+./deploy.sh -s odl -o kilo -t nonha
+
+# to deploy openstail with kilo in nonha mode
+./deply.sh -s opencontrail -o kilo -t nonha
+
+NOTE: Wait for approximately 30-45 minutes and your openstack will be ready to use.
+

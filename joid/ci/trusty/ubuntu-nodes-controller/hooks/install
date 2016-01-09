@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+set -u
+
+## install lxc pre-configuration to setup multiple interfaces
+status-set maintenance "setting up lxc clone hook" || true
+mkdir -p /usr/local/share/lxc/hooks/
+install -m 755 lxc/add-more-interfaces /usr/local/share/lxc/hooks/
+
+dpkg-divert --local \
+    --divert /usr/share/lxc/config/ubuntu-cloud.trusty.conf.ubuntu.orig \
+    --add /usr/share/lxc/config/ubuntu-cloud.trusty.conf
+mkdir -p /usr/share/lxc/config/
+install -m 644 lxc/ubuntu-cloud.trusty.conf /usr/share/lxc/config/
+
+## network interfaces
+status-set maintenance "setting up network interfaces" || true
+apt-get update || true
+apt-get install -y ifenslave ethtool bridge-utils vlan
+
+if ! grep -q 8021q /etc/modules; then
+    echo 8021q >> /etc/modules
+fi
+
+## write /etc/network/interfaces for the host
+install -m 644 network/interfaces.host /etc/network/interfaces
+ifup -a
+
+status-set active || true

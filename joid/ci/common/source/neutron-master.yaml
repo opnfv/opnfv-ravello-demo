@@ -1,0 +1,19 @@
+repositories:
+  - {name: requirements,
+     repository: 'git://github.com/openstack/requirements',
+     branch: master}
+  - {name: neutron-fwaas,
+     repository: 'git://github.com/openstack/neutron-fwaas',
+     branch: master}
+  - {name: neutron-lbaas,
+     repository: 'git://github.com/openstack/neutron-lbaas',
+     branch: master}
+  - {name: neutron-vpnaas,
+     repository: 'git://github.com/openstack/neutron-vpnaas',
+     branch: master}
+  - {name: neutron,
+     repository: 'git://github.com/openstack/neutron',
+     branch: master}
+directory: /mnt/openstack-git
+#http_proxy: http://squid.internal:3128
+#https_proxy: http://squid.internal:3128

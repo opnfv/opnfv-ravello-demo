@@ -1,0 +1,235 @@
+# This file defines the deployment for the MAAS environment which is to be
+# deployed and automated.
+demo-maas:
+    maas:
+        # Defines the general setup for the MAAS environment, including the
+        # username and password for the host as well as the MAAS server.
+        user: ubuntu
+        password: ubuntu
+
+        # Contains the virtual machine parameters for creating the MAAS virtual
+        # server. Here you can configure the name of the virsh domain, the
+        # parameters for how the network is attached.
+        name: opnfv-maas-juniper
+        interfaces: ['bridge=brAdm,model=virtio','bridge=brPublic,model=virtio']
+        #interfaces: ['bridge=brAdm,model=virtio','bridge=brData,model=virtio','bridge=brPublic,model=virtio']
+        memory: 4096
+        vcpus: 1
+        arch: amd64
+        pool: default
+        disk_size: 160G
+
+        # Apt http proxy setting(s)
+        apt_http_proxy:
+
+        apt_sources:
+          - ppa:maas/stable
+          - ppa:juju/stable
+
+        # Virsh power settings
+        # Specifies the uri and keys to use for virsh power control of the 
+        # juju virtual machine. If the uri is omitted, the value for the
+        # --remote is used. If no power settings are desired, then do not
+        # supply the virsh block.
+        virsh:
+            rsa_priv_key: /home/ubuntu/.ssh/id_rsa
+            rsa_pub_key: /home/ubuntu/.ssh/id_rsa.pub
+            uri: qemu+ssh://ubuntu@172.16.50.51/system
+
+        # Defines the IP Address that the configuration script will use to
+        # to access the MAAS controller via SSH.
+        ip_address: 172.16.50.50
+
+        # This section allows the user to set a series of options on the
+        # MAAS server itself. The list of config options can be found in
+        # the upstream MAAS documentation:
+        #  - http://maas.ubuntu.com/docs/api.html#maas-server
+        settings:
+            main_archive: http://us.archive.ubuntu.com/ubuntu
+            upstream_dns: 8.8.8.8
+            maas_name: juniperpod1
+            # kernel_opts: "console=tty0 console=ttyS1,115200n8"
+            # ntp_server: ntp.ubuntu.com
+
+        # This section is used to define the networking parameters for when
+        # the node first comes up. It is fed into the meta-data cloud-init
+        # configuration and is used to configure the networking piece of the
+        # service. The contents of this section are written directly to the
+        # /etc/network/interfaces file.
+        #
+        # Please note, this is slightly different than the
+        # node-group-interfaces section below. This will configure the
+        # machine's networking params, and the node-group-interfaces will
+        # configure the maas node-group interfaces which is used for
+        # controlling the dhcp, dns, etc.
+        network_config: |
+            auto lo
+            iface lo inet loopback
+
+            auto eth0
+            iface eth0 inet static
+            address 172.16.50.50
+            netmask 255.255.255.0
+            network 172.16.50.0
+            broadcast 172.16.50.255
+            #gateway x.x.x.x
+            dns-nameservers 8.8.8.8 127.0.0.1
+
+            auto eth1
+            iface eth1 inet static
+            address 10.10.15.50
+            netmask 255.255.240.0
+            network 10.10.0.0
+            broadcast 10.10.15.255
+            gateway 10.10.10.1
+
+            #auto eth2
+            #iface eth2 inet static
+            #address 10.2.65.3
+            #netmask 255.255.255.0
+            #network 10.2.65.0
+            #broadcast 10.2.65.255
+
+        # The node-group-interfaces section is used to configure the MAAS
+        # network interfaces. Basic configuration is supported, such as which
+        # device should be bound, the range of IP addresses, etc.
+        # Note: this may contain the special identifiers:
+        #   ${maas_net} - the first 3 octets of the ipv4 address
+        #   ${maas_ip} - the ip address of the MAAS controller 
+        node_group_ifaces:
+            - device: eth0
+              ip: 172.16.50.50
+              subnet_mask: 255.255.255.0
+              broadcast_ip: 172.16.50.255
+              router_ip: 172.16.50.50
+              static_range:
+                  low: 172.16.50.60
+                  high: 172.16.50.129
+              dynamic_range:
+                  low: 172.16.50.130
+                  high: 172.16.50.200
+            #- device: eth1
+            #  ip: 10.10.15.50
+            #  subnet_mask: 255.255.240.0
+            #  broadcast_ip: 10.10.15.255
+            #  router_ip: 10.10.10.1
+              #management: 1
+            #  static_range:
+            #      low: 10.10.15.60
+            #      high: 10.10.15.129
+            #  dynamic_range:
+            #      low: 10.10.15.130
+            #      high: 10.10.15.200
+            #- device: eth2
+            #  ip: 10.2.65.3
+            #  subnet_mask: 255.255.255.0
+            #  broadcast_ip: 10.2.65.255
+            #  management: 1
+            #  static_range:
+            #      low: 10.2.65.20
+            #      high: 10.2.65.100
+            #  dynamic_range:
+            #      low: 10.2.65.101
+            #      high: 10.2.65.200
+        # Defines the physical nodes which are added to the MAAS cluster
+        # controller upon startup of the node.
+        
+        # Juniper pod1: server 2, 4 and 6 have 32GB RAM and 4 cores. server 3 
+        # and 5 have 64GB RAM and 12 cores. Make server 2, 4 and 6 as control
+        # nodes and 3 and 5 as compute nodes.
+        nodes:
+            - name: 2-R4N4B2-control
+              tags: control
+              architecture: amd64/generic
+              mac_addresses:
+                  - "0c:c4:7a:16:2a:70"
+              power:
+                  type: ipmi
+                  address: 10.10.7.92
+                  user: ADMIN
+                  pass: ADMIN
+                  driver: LAN_2_0
+#              sticky_ip_address:
+#                  mac_address: "38:63:bb:43:b8:9c"
+#                  requested_address: 192.168.122.5
+                
+            - name: 3-R4N3B1-compute
+              tags: compute
+              architecture: amd64/generic
+              mac_addresses:
+                  - "0c:c4:7a:53:57:c2"
+              power:
+                  type: ipmi
+                  address: 10.10.7.84
+                  user: ADMIN
+                  pass: ADMIN
+                  driver: LAN_2_0
+#              sticky_ip_address:
+#                  mac_address: "38:63:bb:43:b8:9c"
+#                  requested_address: 192.168.122.5
+
+            - name: 4-R4N4B4-control
+              tags: control
+              architecture: amd64/generic
+              mac_addresses:
+                  - "0c:c4:7a:16:22:9c"
+              power:
+                  type: ipmi
+                  address: 10.10.7.95
+                  user: ADMIN
+                  pass: ADMIN
+                  driver: LAN_2_0
+#              sticky_ip_address:
+#                  mac_address: "38:63:bb:43:b8:9c"
+#                  requested_address: 192.168.122.5
+
+            - name: 5-R4N3B2-compute
+              tags: compute
+              architecture: amd64/generic
+              mac_addresses:
+                  - "0c:c4:7a:53:57:16"
+              power:
+                  type: ipmi
+                  address: 10.10.7.85
+                  user: ADMIN
+                  pass: ADMIN
+                  driver: LAN_2_0
+#              sticky_ip_address:
+#                  mac_address: "38:63:bb:43:b8:9c"
+#                  requested_address: 192.168.122.5
+
+            - name: 6-R4N4B3-control
+              tags: control
+              architecture: amd64/generic
+              mac_addresses:
+                  - "0c:c4:7a:16:2a:0a"
+              power:
+                  type: ipmi
+                  address: 10.10.7.93
+                  user: ADMIN
+                  pass: ADMIN
+                  driver: LAN_2_0
+#              sticky_ip_address:
+#                  mac_address: "38:63:bb:43:b8:9c"
+#                  requested_address: 192.168.122.5
+
+#            - name: jenkins-slave
+#              tags: jenkins-slave
+#              architecture: amd64/generic
+#              mac_addresses:
+#                  - "52:54:00:f0:5c:53"
+#              power:
+#                  type: virsh
+#                  address: qemu+ssh://ubuntu@10.4.1.1/system
+
+    # Contains the virtual machine parameters for creating the Juju bootstrap
+    # node virtual machine
+    juju-bootstrap:
+        name: bootstrap
+        interfaces: ['bridge=brAdm,model=virtio','bridge=brPublic,model=virtio']
+        #interfaces: ['bridge=brAdm,model=virtio','bridge=brData,model=virtio','bridge=brPublic,model=virtio']
+        memory: 4096
+        vcpus: 2
+        arch: amd64
+        pool: default
+        disk_size: 120G

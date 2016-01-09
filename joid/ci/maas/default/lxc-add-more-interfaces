@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+set -u
+
+cat <<EOF >> "$LXC_CONFIG_FILE"
+
+EOF
+
+USERDATA="$LXC_ROOTFS_PATH/var/lib/cloud/seed/nocloud-net/user-data"
+
+additional_interfaces="
+- |
+  cat <<EOF >> /etc/network/interfaces.d/additional-interfaces
+  ## added by juju charm
+  ## those interfaces will be brought up by the upstart job as /etc/init/additional-interfaces.conf
+  ## LP: #1483932
+  EOF
+- machine_agent=\$(hostname | sed -e 's/^juju-/jujud-/')
+- |
+  cat <<EOF > /etc/init/additional-interfaces.conf
+  ## added by juju charm
+  ## LP: #1483932
+  start on started \${machine_agent}
+
+  script
+    sleep 10
+    ifup -a -i /etc/network/interfaces.d/additional-interfaces
+  end script
+  EOF
+"
+additional_interfaces=$(echo "$additional_interfaces" | sed -e 's/$/\\n/' | tr -d '\n')
+
+sed -i.orig -e "s@^runcmd:@\0$additional_interfaces@" \
+    "$USERDATA"
