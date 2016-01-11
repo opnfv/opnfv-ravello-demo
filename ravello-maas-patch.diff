@@ -1,0 +1,29 @@
+--- /usr/lib/python2.7/dist-packages/provisioningserver/power_schema.py	2016-01-11 19:22:37.151897181 +0200
++++ ravello/power_schema.py	2016-01-11 19:10:26.311443200 +0200
+@@ -218,6 +218,16 @@
+         ],
+     },
+     {
++        'name': 'ravello',
++        'description': 'Ravello VMs',
++        'fields': [
++            make_json_field('ravello_user', "Ravello user"),
++            make_json_field('ravello_password', "Ravello password"),
++            make_json_field('ravello_application', "Ravello application name"),
++            make_json_field('ravello_vm', "Ravello VM name"),
++        ],
++    },
++    {
+         'name': 'moonshot',
+         'description': 'HP Moonshot - iLO4 (IPMI)',
+         'fields': [
+--- /usr/lib/python2.7/dist-packages/provisioningserver/rpc/power.py	2016-01-11 19:26:19.863889390 +0200
++++ ravello/power.py	2016-01-11 19:13:16.003437300 +0200
+@@ -75,6 +75,7 @@
+     'ucsm',
+     'virsh',
+     'vmware',
++    'ravello'
+ ]
+ 
+ 
