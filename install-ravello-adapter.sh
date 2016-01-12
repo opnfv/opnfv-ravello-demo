@@ -3,9 +3,17 @@
 sudo apt-get install python-pip -y
 sudo pip install -U ravello-sdk
 
+echo "WARNING: This patch was tested for MAAS version 1.8.3"
+echo "Applying this patch on a different version of MAAS might break your environment."
+read -p "Continue (y/n)?" choice
+if [[ $choice != "y" && $choice != "Y" ]]; then
+    echo "Exiting..."
+    exit 0
+fi
+
 DIR=`pwd`
 pushd /
-sudo patch -p1 < $DIR/ravello-maas-patch.diff
+sudo patch -p1 -N < $DIR/ravello-maas-patch.diff
 popd
 
 sudo cp power/ravello-power-cmd.py /etc/maas/templates/power
@@ -22,6 +30,6 @@ sleep 3
 
 sudo restart maas-clusterd
 if [[ $? -ne 1 ]]; then
-    echo "Failed to restart apache2"
+    echo "Failed to restart maas-clusterd"
     exit 1
 fi

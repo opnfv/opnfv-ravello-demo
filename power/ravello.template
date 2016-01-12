@@ -5,7 +5,7 @@
 
 power_change={{power_change}}
 ravello_user={{ravello_user}}
-ravello_password={{ravello_user}}
+ravello_password={{ravello_password}}
 ravello_application={{ravello_application}}
 ravello_vm={{ravello_vm}}
 ravello_power_cmd="{{config_dir}}/ravello-power-cmd.py"
