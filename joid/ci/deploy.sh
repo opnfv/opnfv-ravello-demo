@@ -99,14 +99,13 @@ createresource() {
 # in case of default VM labs.
 deploy() {
     #copy the script which needs to get deployed as part of ofnfv release
-    echo "...... deploying now ......"
-    echo "   " >> environments.yaml
-    echo "        enable-os-refresh-update: false" >> environments.yaml
-    echo "        enable-os-upgrade: false" >> environments.yaml
-    echo "        admin-secret: admin" >> environments.yaml
-    echo "        default-series: trusty" >> environments.yaml
-
-    cp environments.yaml ~/.juju/
+    # echo "...... deploying now ......"
+    # echo "   " >> environments.yaml
+    # echo "        enable-os-refresh-update: false" >> environments.yaml
+    # echo "        enable-os-upgrade: false" >> environments.yaml
+    # echo "        admin-secret: admin" >> environments.yaml
+    # echo "        default-series: trusty" >> environments.yaml
+    # cp environments.yaml ~/.juju/
 
     if [[ "$opnfvtype" = "ha" && "$opnfvlab" = "default" ]]; then
         createresource
