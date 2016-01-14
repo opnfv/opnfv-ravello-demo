@@ -66,6 +66,7 @@ case "$3" in
      'ravellodemopod' )
         sed -i -- 's/local:trusty\/ubuntu-nodes-controller/cs:trusty\/ubuntu/g' ./bundles.yaml
         sed -i -- 's/local:trusty\/ubuntu-nodes-compute/cs:trusty\/ubuntu/g' ./bundles.yaml
+        ;;
      'default' )
          sed -i -- 's/local:trusty\/ubuntu-nodes-controller/cs:trusty\/ubuntu/g' ./bundles.yaml
          sed -i -- 's/local:trusty\/ubuntu-nodes-compute/cs:trusty\/ubuntu/g' ./bundles.yaml
