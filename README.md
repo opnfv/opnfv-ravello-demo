@@ -32,17 +32,18 @@ You will need the following setup before hand to get going:
 1. Review the notes on the wiki for the OPNFV Academy - it was done using bare metal NUCs from Intel. We will make some adjustments to get it working with the virtual machines provided by Ravello.
 1. The files used for this demo (like ssh keys) are available on the following GitHub repo. Setup the github client on your computer.
 1. If you don’t have a working git client see this page with steps for Mac, Windows, and Linux: https://help.github.com/articles/set-up-git/ 
-1. Clone the repo:  https://github.com/opnfv/opnfv-ravello-demo
+1. Clone the repo to your local workstation:  https://github.com/opnfv/opnfv-ravello-demo
 1. You can access and manage Ravello using any computer with a web browser. You may want to upload some ISO files or other Virtual Machine image files. Do do this will require installing software on a Linux, Windows, or Mac OS computer. Why not use a linux machine hosted on line?  You can make one on Ravello, Amazon AWS, Microsoft Azure, or google?
   * https://azure.microsoft.com/en-us/pricing/free-trial/
   * https://cloud.google.com/free-trial/
   * https://aws.amazon.com/free/
   * http://www.nephoscale.com
   * many others
+1. OPTIONAL: Create a Linux Foundation account (LFID) so you can access the OPNFV tools: https://www.opnfv.org/developers/tools 
+1. Sign on to IRC chat.freenode.net and join the #opnfv channel to get help
 
 #OPNFV Demonstration - User Story
 
-1. OPTIONAL: Create a Linux Foundation account (LFID) so you can access the OPNFV tools: https://www.opnfv.org/developers/tools 
 1. Create free account on Ravello
 1. Deploy blueprint as an active application
 1. Identify the ip address for your application
