@@ -39,8 +39,10 @@ You will need the following setup before hand to get going:
   * https://aws.amazon.com/free/
   * http://www.nephoscale.com
   * many others
-1. Be sure to get setup with Linux Foundation account (LFID) so you can access the OPNFV tools: https://www.opnfv.org/developers/tools 
-OPNFV Demonstration - User Story
+
+#OPNFV Demonstration - User Story
+
+1. OPTIONAL: Create a Linux Foundation account (LFID) so you can access the OPNFV tools: https://www.opnfv.org/developers/tools 
 1. Create free account on Ravello
 1. Deploy blueprint as an active application
 1. Identify the ip address for your application
