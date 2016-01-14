@@ -61,7 +61,7 @@ In this first pass the environment will be built out manually. Additional iterat
 1. Create the virtual machine containers
 1. Configure the machines and networking
 1. Deploy MaaS and Empty VMs
-1. Develop MaaS Power Driver for Ravello
+1. Enter credentials for MaaS Power Driver for Ravello
 1. Use MaaS to create Juju bootstrap machine - verify YAML config are correct
   - cd ~/opnfv-ravello-demo/joid/ci
   - cp opencontrail/juju-deployer/contrail.yaml ./bundles.yaml
