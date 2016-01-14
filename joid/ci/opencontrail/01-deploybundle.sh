@@ -63,6 +63,9 @@ case "$3" in
         # Choose the external port to go out from gateway to use.
          sed -i -- 's/#        "ext-port": "eth1"/        "ext-port": "eth1"/g' ./bundles.yaml
         ;;
+     'ravellodemopod' )
+        sed -i -- 's/local:trusty\/ubuntu-nodes-controller/cs:trusty\/ubuntu/g' ./bundles.yaml
+        sed -i -- 's/local:trusty\/ubuntu-nodes-compute/cs:trusty\/ubuntu/g' ./bundles.yaml
      'default' )
          sed -i -- 's/local:trusty\/ubuntu-nodes-controller/cs:trusty\/ubuntu/g' ./bundles.yaml
          sed -i -- 's/local:trusty\/ubuntu-nodes-compute/cs:trusty\/ubuntu/g' ./bundles.yaml
