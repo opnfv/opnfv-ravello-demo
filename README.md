@@ -64,7 +64,6 @@ In this first pass the environment will be built out manually. Additional iterat
 1. Enter credentials for MaaS Power Driver for Ravello
 1. Use MaaS to create Juju bootstrap machine - verify YAML config are correct
   - cd ~/opnfv-ravello-demo/joid/ci
-  - cp opencontrail/juju-deployer/contrail.yaml ./bundles.yaml
   - ./deploy.sh -o juno -s opencontrail -t nonha -l ravellodemopod
 1. Use Juju to perform a deployment of operating systems, openstack, and network controller.
 1. Run some tests - use the environment
