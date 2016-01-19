@@ -66,6 +66,13 @@ In this first pass the environment will be built out manually. Additional iterat
   - cd ~/opnfv-ravello-demo/joid/ci
   - ./deploy.sh -o juno -s opencontrail -t nonha -l ravellodemopod
 1. Use Juju to perform a deployment of operating systems, openstack, and network controller.
+1. Verify the services are operating properly 
+  - ssh path-to-key.pem ubuntu@dns-or-ip-address-of-maas-server
+  - juju status --format tabular
+1. Check that charms are up and running and at the bottom, you have the machines and each one has a number.
+1. juju ssh <machine_number>" to ssh into a machine owned by juju
+  - "juju ssh 1" -> you can ssh into controller
+  - "juju ssh 2" -> you can ssh into compute
 1. Run some tests - use the environment
 1. Tear it down and repeat - improve through iteration
 
