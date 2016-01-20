@@ -22,8 +22,8 @@ This section is an attempt to explain why we are using Ravello and will guide ou
 There are three ways to consume OPNFV:
 
 1. Automated setup using static machines driven by jenkins jobs reading gerrit running on a daily and weekly build process. jenkins jobs handle the installation, configuration, and testing of the OPNFV platform. Required LFID and Authorization to make any changes as well as dedicated hardware.
-1. Assisted Install: Use a pre-built jump server setup to download latest code from a public github repo and pxe-boot some machines. More flexible and “open” while following a similar process to the “real” OPNFV labs. Uses Canonical MaaS and Juju to follow along with capabilities from the JOID project.
-1. Static OPNFV trial system already built out and ready to use with openstack and sdn network controller preconfigured. Rapid setup time but quickly falls out of date as upstream projects change.
+1. Assisted Install: Use a pre-built jump server setup to download latest code from a public github repo and pxe-boot some machines. More flexible and “open” while following a similar process to the “real” OPNFV labs. Uses Canonical MaaS and Juju to follow along with capabilities from the JOID project. This option takes a few hours.
+1. Static OPNFV trial system already built out and ready to use with openstack and sdn network controller preconfigured. Rapid setup time but quickly falls out of date as upstream projects change. We will update these blueprints once a month or so.
 
 #Getting Started
 You will need the following setup before hand to get going:
