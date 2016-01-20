@@ -45,10 +45,16 @@ You will need the following setup before hand to get going:
 #OPNFV Demonstration - User Story
 
 1. Create free account on Ravello
+2. Setup SSH Key Pair
+  - add your own to Ravello Library with Import feature (ssh-keygen -i -f opnfv-ravello.pub > opnfv-ravello1.pub)
+  - create a new key pair
+  - import the key from github (https://github.com/opnfv/opnfv-ravello-demo/blob/master/opnfv-ravello.pub)
 1. Deploy blueprint as an active application
-1. Identify the ip address for your application
-1. verify MAAS function: 
-1. ssh ubuntu@maas-opnfvbp3app-gxowv3sb.srv.ravcloud.com password: ubuntu
+2. Assign your ssh key to the maas machine in your application
+2. Publish the application
+1. Identify the ip address for the MaaS server in your application
+1. verify MAAS functionality via web ui and ssh
+1. EXAMPLE: ssh -i path-to-ssh-key.pem ubuntu@maas-opnfvbp3app-gxowv3sb.srv.ravcloud.com
 1. login to MAAS - ubuntu/ubuntu
 1. import images - http://maas-opnfvbp3app-gxowv3sb.srv.ravcloud.com/MAAS/images/
 1. configure JOID deploy and environment scripts
