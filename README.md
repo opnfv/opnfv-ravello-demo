@@ -3,6 +3,14 @@
 ## Introduction
 These are my rough notes from the implementation of the OPNFV Academy framework on Ravello Systems hosted cloud environment.
 
+There are 5 blueprints we are working on:
+
+1 - Pre-built MaaS with empty nodes - ready to build OPNFV with your SDN choice - done - take an hour or two to deploy this blueprint, configure maas then four hours later you can have a working OPNFV setup you can customize. Not self-contained - needs ssh keys, github, edit files. For more advanced developer.
+2 - Deployed OPNFV with OpenStack Juno and Juniper Contrail SDN OpenStack Juno - done - spin up an app from this blueprint and in 20 minutes you will have a working OpenStack environment. Beginner level.
+3 - Deployed OPNFV with ODL SDN OpenStack Liberty - in progress
+4 - Deployed OPNFV with ONOS SDN OpenStack Liberty - pending
+5 - Deployed OPNFV with no SDN OpenStack Tip/Master - pending
+
 ![alt text](https://github.com/opnfv/opnfv-ravello-demo/raw/master/OPNFV-Ravello-4node3net.png "OPNFV Academy Drawing")
 
 #Purpose
