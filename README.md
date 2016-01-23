@@ -7,11 +7,11 @@ There are 5 blueprints we are working on:
 
 1. Pre-built MaaS with empty nodes - ready to build OPNFV with your SDN choice - done - take an hour or two to deploy this blueprint, configure maas then four hours later you can have a working OPNFV setup you can customize. Not self-contained - needs ssh keys, github, edit files. For more advanced developer.
 2. Deployed OPNFV with OpenStack Juno and Juniper Contrail SDN OpenStack Juno - done - spin up an app from this blueprint and in 20 minutes you will have a working OpenStack environment. Beginner level.
-3. Deployed OPNFV with ODL SDN OpenStack Liberty - in progress
+3. Deployed OPNFV with ODL SDN OpenStack Liberty - blueprint draft published in January
 4. Deployed OPNFV with ONOS SDN OpenStack Liberty - pending
 5. Deployed OPNFV with no SDN OpenStack Tip/Master - pending
 
-![alt text](https://github.com/opnfv/opnfv-ravello-demo/raw/master/OPNFV-Ravello-4node3net.png "OPNFV Academy Drawing")
+![alt text](https://github.com/opnfv/opnfv-ravello-demo/raw/master/pics/OPNFV-Ravello-4node4net.png "OPNFV Academy Drawing")
 
 #Purpose
 We are building out an OPNFV environment in Ravello. This environment will be shared publicly as a Ravello Blueprint. A blog post and training program will be created around this blog post. Different team members can use this setup to learn about OPNFV or to expand on it for use as a Sales Demo tool or for customer facing POCs or even QA/DevTest functional testing scenarios.
@@ -53,10 +53,13 @@ You will need the following setup before hand to get going:
 #OPNFV Demonstration - User Story
 
 1. Create free account on Ravello
-2. Setup SSH Key Pair
+2. Setup SSH Key Pair - there are three options here:
   - add your own to Ravello Library with Import feature (ssh-keygen -i -f opnfv-ravello.pub > opnfv-ravello1.pub)
   - create a new key pair
   - import the key from github (https://github.com/opnfv/opnfv-ravello-demo/blob/master/opnfv-ravello.pub)
+  ```
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5REVxIbyGbaKZL1hT8zjvW/EoafNbdFx1H7+nnlvutb7PFlOKXHswrcX4bWZttTHnKzt2NWjeRgaX0c4RRMl/0+NLqb82nyBj5AP4V4O/s+5MP+kbmQAVUo1aKfu6Z8jw9VUTc6ztmMGFfLq/+8d79avmvfCKsv1RuPojLRHU8Np0GgUaHFbkIzaFRMMvgSAdsz8etBC/sD5v/PAsnEB6Vdv1QLIdmb7leJaaNDbf9JiTInR5yay3XYZ1y5CDpD4KuODn9nbgfzLh8NMqeQ2O2Noyg1c4yrxXLEXWQwDFRuCmXLPAta1kDOSsYUWGQzSCoQHZeAhp1E/t/ULjMPfV imported-openssh-key
+  ```
 1. Deploy blueprint as an active application
 2. Assign your ssh key to the maas machine in your application
 2. Publish the application
