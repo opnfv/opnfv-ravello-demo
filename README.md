@@ -54,9 +54,9 @@ You will need the following setup before hand to get going:
 
 1. Create free account on Ravello
 1. Setup SSH Key Pair - there are three options here:
-  1.1 add your own to Ravello Library with Import feature (may need to run: ssh-keygen -i -f opnfv-ravello.pub > opnfv-ravello1.pub)
-  1.1 create a new key pair using the Ravello Web UI
-  1.1 import the key from github (https://github.com/opnfv/opnfv-ravello-demo/blob/master/opnfv-ravello.pub)
+  1. add your own to Ravello Library with Import feature (may need to run: ssh-keygen -i -f opnfv-ravello.pub > opnfv-ravello1.pub)
+  1. create a new key pair using the Ravello Web UI
+  1. import the key from github (https://github.com/opnfv/opnfv-ravello-demo/blob/master/opnfv-ravello.pub)
   ```
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5REVxIbyGbaKZL1hT8zjvW/EoafNbdFx1H7+nnlvutb7PFlOKXHswrcX4bWZttTHnKzt2NWjeRgaX0c4RRMl/0+NLqb82nyBj5AP4V4O/s+5MP+kbmQAVUo1aKfu6Z8jw9VUTc6ztmMGFfLq/+8d79avmvfCKsv1RuPojLRHU8Np0GgUaHFbkIzaFRMMvgSAdsz8etBC/sD5v/PAsnEB6Vdv1QLIdmb7leJaaNDbf9JiTInR5yay3XYZ1y5CDpD4KuODn9nbgfzLh8NMqeQ2O2Noyg1c4yrxXLEXWQwDFRuCmXLPAta1kDOSsYUWGQzSCoQHZeAhp1E/t/ULjMPfV imported-openssh-key
   ```
