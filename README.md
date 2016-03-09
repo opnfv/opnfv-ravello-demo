@@ -93,8 +93,9 @@ In this first pass the environment will be built out manually. Additional iterat
   - Enter new UNIX password:
   - Retype new UNIX password:
   - passwd: password updated successfully
-  - root@maas:~#
+  - root@maas:~# exit
 1. Check that charms are up and running and at the bottom, you have the machines and each one has a number.
+  - Be sure to run these commands from the $ prompt as the ubuntu user
   - juju status --format tabular
 1. juju ssh <machine_number>" to ssh into a machine owned by juju
   - "juju ssh 1" -> you can ssh into controller
