@@ -89,7 +89,6 @@ In this first pass the environment will be built out manually. Additional iterat
   - ssh -i path-to-key.pem ubuntu@dns-or-ip-address-of-maas-server
 1. Change the password for the ubuntu user.  You may need it later.  Or you can setup additional accounts.  
   - ubuntu@maas:~$ sudo su -
-  - root@maas:~# ^C
   - root@maas:~# passwd ubuntu
   - Enter new UNIX password:
   - Retype new UNIX password:
