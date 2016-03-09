@@ -73,7 +73,7 @@ You will need the following setup before hand to get going:
 1. login to OpenStack Horizon Dashboard Web UI  - admin/openstack
  ![alt text](https://github.com/opnfv/opnfv-ravello-demo/raw/master/pics/opnfv-joid-openstack.png "Show OpenStack Horizon Dashboard Web UI")
  
-#Environment Preparation
+#Environment Prep and Operation
 High level overview of steps to follow for building out OPNFV on Ravello.
 In this first pass the environment will be built out manually. Additional iterations will bring automation to these steps.  Please help with improving this process. It is intended to be a team effort.
 
@@ -86,9 +86,17 @@ In this first pass the environment will be built out manually. Additional iterat
   - ./deploy.sh -o juno -s opencontrail -t nonha -l ravellodemopod
 1. Use Juju to perform a deployment of operating systems, openstack, and network controller.
 1. Verify the services are operating properly 
-  - ssh path-to-key.pem ubuntu@dns-or-ip-address-of-maas-server
-  - juju status --format tabular
+  - ssh -i path-to-key.pem ubuntu@dns-or-ip-address-of-maas-server
+1. Change the password for the ubuntu user.  You may need it later.  Or you can setup additional accounts.  
+  - ubuntu@maas:~$ sudo su -
+  - root@maas:~# ^C
+  - root@maas:~# passwd ubuntu
+  - Enter new UNIX password:
+  - Retype new UNIX password:
+  - passwd: password updated successfully
+  - root@maas:~#
 1. Check that charms are up and running and at the bottom, you have the machines and each one has a number.
+  - juju status --format tabular
 1. juju ssh <machine_number>" to ssh into a machine owned by juju
   - "juju ssh 1" -> you can ssh into controller
   - "juju ssh 2" -> you can ssh into compute
