@@ -9,7 +9,7 @@ There are 5 blueprints we are working on:
 2. Deployed OPNFV with OpenStack Juno and Juniper Contrail SDN OpenStack Juno - done - spin up an app from this blueprint and in 20 minutes you will have a working OpenStack environment. Beginner level. <-- this blueprint needs an update for the Contrail controller to work properly.
 3. Deployed OPNFV with ODL SDN OpenStack Liberty 17 Feb, 2016 - https://www.ravellosystems.com/repo/blueprints/68618208 - deploy to google cloud - not Amazon AWS. There were issues with networking in AWS. Google works fine.
 4. Deployed OPNFV with ONOS SDN OpenStack Liberty - pending
-5. Deployed OPNFV with no SDN OpenStack Liberty from 9 Feb, 2016 - https://www.ravellosystems.com/repo/blueprints/68354377
+5. Deployed OPNFV with No SDN OpenStack Liberty and Congress/Copper from 9 Mar, 2016 - https://www.ravellosystems.com/repo/blueprints/69075386
 
 ![alt text](https://github.com/opnfv/opnfv-ravello-demo/raw/master/pics/OPNFV-Ravello-4node4net.png "OPNFV Academy Drawing")
 
