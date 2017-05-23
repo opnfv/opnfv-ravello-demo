@@ -33,7 +33,7 @@ There are three ways to consume OPNFV:
 1. Assisted Install: Use a pre-built jump server setup to download latest code from a public github repo and pxe-boot some machines. More flexible and “open” while following a similar process to the “real” OPNFV labs. Uses Canonical MaaS and Juju to follow along with capabilities from the JOID project. This option takes a few hours.
 1. Static OPNFV trial system already built out and ready to use with openstack and sdn network controller preconfigured. Rapid setup time but quickly falls out of date as upstream projects change. We will update these blueprints once a month or so.
 
-#Getting Started
+# Getting Started
 You will need the following setup before hand to get going:
 
 1. An account on the Ravello cloud. They provide 2880 CPU Hours for free - enough to run 1 machine for 14 days. Make it a big one!
